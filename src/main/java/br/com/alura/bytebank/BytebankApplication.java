@@ -14,7 +14,7 @@ public class BytebankApplication {
 
     public static void main(String[] args) {
         var opcao = exibirMenu();
-        while (opcao != 7) {
+        while (opcao != 0) {
             try {
                 switch (opcao) {
                     case 1 -> listarContas();
@@ -23,6 +23,7 @@ public class BytebankApplication {
                     case 4 -> consultarSaldo();
                     case 5 -> realizarSaque();
                     case 6 -> realizarDeposito();
+                    case 7 -> buscarPorNumero();
                 }
             } catch (RegraDeNegocioException e) {
                 System.out.println("Erro: " +e.getMessage());
@@ -44,7 +45,7 @@ public class BytebankApplication {
                 4 - Consultar saldo de uma conta
                 5 - Realizar saque em uma conta
                 6 - Realizar depósito em uma conta
-                7 - Sair
+                7 - Buscar conta por número
                 """);
         return sc.nextInt();
     }
@@ -122,6 +123,20 @@ public class BytebankApplication {
         service.realizarDeposito(numeroDaConta, valor);
 
         System.out.println("Depósito realizado com sucesso!");
+        System.out.println("Pressione qualquer tecla e de ENTER para voltar ao menu principal");
+        sc.next();
+    }
+
+    private static void buscarPorNumero() {
+        System.out.println("Digite o número da conta:");
+        var numeroDaConta = sc.nextInt();
+
+        try {
+            System.out.println(service.buscarContaPorNumero(numeroDaConta));
+        } catch (RegraDeNegocioException e) {
+            System.out.println("Erro: " +e.getMessage());
+        }
+
         System.out.println("Pressione qualquer tecla e de ENTER para voltar ao menu principal");
         sc.next();
     }
