@@ -1,11 +1,15 @@
 package br.com.alura.bytebank.domain.conta;
 
 import br.com.alura.bytebank.domain.cliente.Cliente;
+import br.com.alura.bytebank.domain.cliente.DadosCadastroCliente;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashSet;
+import java.util.Set;
 
 public class ContaDAO {
 
@@ -32,6 +36,33 @@ public class ContaDAO {
 
             preparedStatement.execute();
         }catch (SQLException ex){
+            throw new RuntimeException(ex);
+        }
+    }
+
+    public Set<Conta> listar(){
+        Set<Conta> contas = new HashSet<>();
+
+        String sql = "SELECT * FROM conta";
+
+        try {
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()){
+                Integer numero = resultSet.getInt(1);
+                BigDecimal saldo = resultSet.getBigDecimal(2);
+                String nome = resultSet.getString(3);
+                String cpf = resultSet.getString(4);
+                String email = resultSet.getString(5);
+                DadosCadastroCliente  dadosCliente = new DadosCadastroCliente(nome, cpf, email);
+                Cliente cliente = new Cliente(dadosCliente);
+
+                contas.add(new Conta(numero, cliente));
+            }
+
+            return contas;
+        } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
     }
