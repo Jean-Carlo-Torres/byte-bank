@@ -26,7 +26,7 @@ public class BytebankApplication {
                     case 7 -> buscarPorNumero();
                 }
             } catch (RegraDeNegocioException e) {
-                System.out.println("Erro: " +e.getMessage());
+                System.out.println("Erro: " + e.getMessage());
                 System.out.println("Pressione qualquer tecla e de ENTER para voltar ao menu");
                 sc.next();
             }
@@ -94,7 +94,7 @@ public class BytebankApplication {
         System.out.println("Digite o número da conta:");
         var numeroDaConta = sc.nextInt();
         var saldo = service.consultarSaldo(numeroDaConta);
-        System.out.println("Saldo da conta: " +saldo);
+        System.out.println("Saldo da conta: " + saldo);
 
         System.out.println("Pressione qualquer tecla e de ENTER para voltar ao menu principal");
         sc.next();
@@ -134,7 +134,7 @@ public class BytebankApplication {
         try {
             System.out.println(service.buscarContaPorNumero(numeroDaConta));
         } catch (RegraDeNegocioException e) {
-            System.out.println("Erro: " +e.getMessage());
+            System.out.println("Erro: " + e.getMessage());
         }
 
         System.out.println("Pressione qualquer tecla e de ENTER para voltar ao menu principal");
