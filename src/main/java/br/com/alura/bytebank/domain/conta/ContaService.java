@@ -44,8 +44,7 @@ public class ContaService {
         }
 
         BigDecimal novoValor = conta.getSaldo().subtract(valor);
-        Connection conn = connection.conectar();
-        new ContaDAO(conn).alterar(conta.getNumero(), novoValor);
+        alterar(conta, novoValor);
 
     }
 
@@ -55,8 +54,18 @@ public class ContaService {
             throw new RegraDeNegocioException("Valor do deposito deve ser superior a zero!");
         }
 
+        BigDecimal novoValor = conta.getSaldo().add(valor);
+        alterar(conta, novoValor);
+    }
+
+    private void alterar(Conta conta, BigDecimal valor) {
         Connection conn = connection.conectar();
         new ContaDAO(conn).alterar(conta.getNumero(), valor);
+    }
+
+    public void realizarTransferencia(Integer numeroDaContaOrigem, Integer numeroDaContaDestino, BigDecimal valor) {
+        realizarSaque(numeroDaContaOrigem, valor);
+        realizarDeposito(numeroDaContaDestino, valor);
     }
 
     public void encerrar(Integer numeroDaConta) {
